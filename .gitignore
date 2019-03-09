@@ -1,0 +1,4 @@
+*.swp
+lem-in
+obj
+libft/libft.a
