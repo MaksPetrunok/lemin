@@ -121,6 +121,6 @@ int			get_next_line(const int fd, char **line)
 	}
 	if (n == -1)
 		return (-1);
-	*line = (tmp == 0) ? ft_strnew(0) : tmp;
+	*line = (tmp == 0) ? 0 : tmp;
 	return (tmp != 0);
 }

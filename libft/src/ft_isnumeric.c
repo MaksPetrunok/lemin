@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isnumeric(char *s)
+int	ft_isnumeric(const char *s)
 {
 	if (*s == '\0')
 		return (0);

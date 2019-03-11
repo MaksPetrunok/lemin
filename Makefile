@@ -23,11 +23,16 @@ LIB_DIR = ./libft/
 LIB_INC_DIR = $(LIB_DIR)includes/
 LIB = $(LIB_DIR)libft.a
 
-DIR_LST = $(OBJ_DIR)
+DIR_LST =	$(OBJ_DIR) \
+			$(OBJ_DIR)hashmap/
 
 MAIN_FILES =	main.c \
-				hashmap.c \
-				hm_util.c
+				hashmap/hashmap.c \
+				hashmap/hm_util.c \
+				node.c \
+				farm.c \
+				read_inp.c #remove me
+				
 
 
 
