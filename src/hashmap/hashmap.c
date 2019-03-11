@@ -31,7 +31,7 @@ t_hashmap	*init_hashmap(int size)
 	return (map);
 }
 
-char		*hmap_get(const char *key, t_hashmap *hmap)
+VAL_TYPE	*hmap_get(const char *key, t_hashmap *hmap)
 {
 	int		index;
 	t_hment	*lst;
@@ -49,7 +49,7 @@ char		*hmap_get(const char *key, t_hashmap *hmap)
 	return (NULL);
 }
 
-int			hmap_set(const char *key, const char *val, t_hashmap *hmap)
+int			hmap_set(const char *key, VAL_TYPE *val, t_hashmap *hmap)
 {
 	int		index;
 	t_hment	*ent;
@@ -63,8 +63,7 @@ int			hmap_set(const char *key, const char *val, t_hashmap *hmap)
 		if (ft_strequ(key, ent->key))
 		{
 			free((void *)(ent->value));
-			if ((ent->value = ft_strdup(val)) == NULL)
-				return (0);
+			ent->value = val;
 			return (1);
 		}
 		ent = ent->next;
@@ -116,7 +115,7 @@ void		free_hashmap(t_hashmap *map)
 		while (e)
 		{
 			free((void *)(e->key));
-			free((void *)(e->value));
+//			free((void *)(e->value));
 			tmp = e;
 			e = e->next;
 			free((void *)tmp);

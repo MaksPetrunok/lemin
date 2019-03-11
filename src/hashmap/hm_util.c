@@ -22,26 +22,28 @@ unsigned long	hash(const char *str)
 	return (hash);
 }
 
-t_hment			*new_hmentry(const char *key, const char *value)
+t_hment			*new_hmentry(const char *key, VAL_TYPE *value)
 {
-	t_hment	*new;
-	char	*new_key;
-	char	*new_val;
+	t_hment		*new;
+	char		*new_key;
 
+	if (!key || !value)
+	{
+		ft_dprintf(2, "hashmap: setting NULL pointer as a key\n");
+		return (NULL);
+	}
 	new = malloc(sizeof(t_hment));
 	new_key = ft_strdup(key);
-	new_val = ft_strdup(value);
-	if (!new || !new_key || !new_val)
+	if (!new || !new_key)
 	{
 		free((void *)new);
 		free((void *)new_key);
-		free((void *)new_val);
 		return (NULL);
 	}
 	new->prev = NULL;
 	new->next = NULL;
 	new->key = new_key;
-	new->value = new_val;
+	new->value = value;
 	return (new);
 }
 
@@ -52,6 +54,5 @@ void			del_hmentry(t_hment *ent)
 	if (ent->next)
 		ent->next->prev = ent->prev;
 	free((void *)(ent->key));
-	free((void *)(ent->value));
 	free((void *)ent);
 }
