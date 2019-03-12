@@ -1,9 +1,20 @@
-// header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   farm.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/12 09:47:29 by mpetruno          #+#    #+#             */
+/*   Updated: 2019/03/12 13:52:29 by mpetruno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "lemin.h"
 
 t_farm		g_farm;
 t_inp_lst	*g_raw_input = NULL;
+t_inp_lst	*g_input = NULL;
 
 static t_state_trans	g_fsm_table[3][6] =
 {
@@ -29,112 +40,27 @@ static t_state_trans	g_fsm_table[3][6] =
 	[S_LINK][L_COMM] = {S_LINK, NULL}
 };
 
-int	set_err(char *str)
+int			add_input(char *str)
 {
-	// add 'empty line' instead of '' ?
-	ft_dprintf(2, "lem-in: unexpected token '%s'\n", str);
-	return (-1);
-}
+	t_inp_lst			*new;
+	static t_inp_lst	*last = NULL;
 
-int	set_ants(char *str)
-{
-	if (!ft_isnumeric(str))
+	if ((new = malloc(sizeof(t_inp_lst))) == NULL)
 	{
-		ft_dprintf(2, "lem-in: number of ants is not an integer\n");
-		return (-1);
-	}
-	g_farm.ants_number = ft_atoi(str);
-	if (g_farm.ants_number > 0)
-	{
-ft_printf("set ants: %d\n", g_farm.ants_number);
-		return (1);
-	}
-	ft_dprintf(2, "lem-in: incorrect number of ants provided\n");
-	return (-1);
-}
-
-int	set_room(char *str)
-{
-	t_node	*node;
-
-	if ((node = init_node(str)) == NULL)
-		return (-1);
-	if (!hmap_set(node->id, node, g_farm.map))
-	{
-		free((void *)(node->id));
-		free((void *)node);
 		perror("lem-in: ");
-		return (-1);
-	}
-	return (1);
-}
-
-int	is_room(const char *str)
-{
-	char	*x;
-	char	*y;
-
-	if (*str == 'L' || *str == ' ')
 		return (0);
-	else if ((x = ft_strchr(str, ' ')) == NULL ||
-			(y = ft_strchr(x + 1, ' ')) == NULL)
-		return (0);
-	else if (*(x + 1) == '\0' || *(y + 1) == '\0')
-		return (0);
-	x++;
-	y++;
-	while (*x && *x != ' ')
-	{
-		if (!ft_isdigit(*x++))
-			return (0);
 	}
-	while (*y)
-	{
-		if (!ft_isdigit(*y++))
-			return (0);
-	}
+	new->str = str;
+	new->next = NULL;
+	if (last)
+		last->next = new;
+	last = new;
+	if (!g_input)
+		g_input = new;
 	return (1);
 }
 
-int set_cmd(char *str)
-{
-	char	*tmp;
-	t_node	*node;
-
-	if (!ft_strequ(str, "##start") && !ft_strequ(str, "##end"))
-		return (1);
-	if (get_next_line(0, &tmp) <= 0 || !is_room(tmp))
-	{
-// handle empty tmp
-		ft_dprintf(2, "lem-in: unexpected token '%s'\n", tmp ? tmp : "EOF");
-		free((void *)tmp);
-		return (-1);
-	}
-	if ((node = init_node(tmp)) == NULL)
-		return (-1);
-	if (!hmap_set(node->id, node, g_farm.map))
-	{
-		free((void *)(node->id));
-		free((void *)node);
-		perror("lem-in: ");
-		return (-1);
-	}
-// !!! check for duplicates
-//	set_node(node, str); // set start or end to current node
-	if (ft_strequ(str, "##start"))
-		g_farm.start = node;
-	else if (ft_strequ(str, "##end"))
-		g_farm.end = node;
-	return (1);
-}
-
-int	set_link(char *str)
-{
-	ft_printf("set link: %s\n", str);
-	return (1);
-}
-
-int	get_input_type(const char *str)
+static int	get_input_type(const char *str)
 {
 	if (ft_isnumeric(str))
 		return (L_ANT);
@@ -142,7 +68,7 @@ int	get_input_type(const char *str)
 		return (L_COMM);
 	else if (*str == '#' && *(str + 1) == '#')
 		return (L_CMD);
-	else if (ft_strchr(str, '-') && !ft_strchr(str, ' '))
+	else if (is_link(str))
 		return (L_LINK);
 	else if (is_room(str))
 		return (L_ROOM);
@@ -150,7 +76,18 @@ int	get_input_type(const char *str)
 		return (L_ERR);
 }
 
-int	make_farm(void)
+static int	check_farm(void)
+{
+	if (!g_farm.start || !g_farm.end)
+	{
+		ft_dprintf(2, "lem-in: %s room is not defined\n",
+				g_farm.start ? "##end" : "##start");
+		return (0);
+	}
+	return (1);
+}
+
+int			make_farm(void)
 {
 	char		*str;
 	t_inp_func	func;
@@ -169,11 +106,8 @@ int	make_farm(void)
 		if ((func = g_fsm_table[state][inp_sig].func) == 0)
 			free((void *)str);
 		else if (func(str) < 0)
-		{
-			// free all data here or in main?
 			return (0);
-		}
 		state = g_fsm_table[state][inp_sig].state;
 	}
-	return (1);
+	return (check_farm());
 }

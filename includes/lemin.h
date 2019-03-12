@@ -18,9 +18,9 @@ struct			s_inp_lst
 };
 
 extern t_farm		g_farm;
-extern t_inp_lst	*g_raw_input;
+extern t_inp_lst	*g_input;
 
-int					read_input(void);
+int					add_input(char *str);
 
 
 #endif

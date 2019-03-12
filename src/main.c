@@ -2,35 +2,54 @@
 
 #include "lemin.h"
 
+
+void	print_hashmap(t_hashmap *hm)
+{
+	ft_printf("--------- Node hashmap ---------\n");
+	for (int i=0; i<hm->size; i++)
+	{
+		if (hm->list[i])
+		{
+			t_hment *tmp = hm->list[i];
+			while (tmp)
+			{
+				ft_printf("Hashmap[%d]: %s\n", i, tmp->key);
+				t_node *n = NODE(tmp->value);
+				ft_printf("Node: %s(%d, %d) ->", n->id, n->x, n->y);
+				t_adj_lst *adj = n->adj;
+				while (adj)
+				{
+					ft_printf(" %s", adj->node->id);
+					adj = adj->next;
+				}
+				ft_printf("\n");
+				tmp = tmp->next;
+			}
+		}
+	}
+	ft_printf("--------- End hashmap ---------\n");
+}
+
 int	main(void)
 {
-/*
-	1. Read input, validate input and make graph for farm.
-	Ignore comments.
-	Pre-validate (on the go) input for double-##start/##end. (Double inclusions, wrong format...)
-	If ants, ##start, ##end or links are missing - report and exit.
-	Store input lines in array.
-	Use hashtable for faster access to nodes?
-*/
 	if (!make_farm())
 		return (1);
 
-// debug
-	while (g_raw_input)
+	while (g_input)
 	{
-		t_inp_lst *tmp = g_raw_input->next;
-		ft_printf("INPUT: %s\n", g_raw_input->str);
+		t_inp_lst *tmp = g_input->next;
+		ft_printf("INPUT: %s\n", g_input->str);
 
-		free((void *)(g_raw_input->str));
-		free((void *)g_raw_input);
+		free((void *)(g_input->str));
+		free((void *)g_input);
 
-		g_raw_input = tmp;
+		g_input = tmp;
 	}
-ft_printf("Start: %p\n", g_farm.start);
-ft_printf("End: %p\n", g_farm.end);
-
-//	if ((farm = read_input()) == NULL)
-//		return (1);
+/*
+print_hashmap(g_farm.map);
+ft_printf("Start: %s\n", g_farm.start ? g_farm.start->id : "NULL");
+ft_printf("End: %s\n", g_farm.end ? g_farm.end->id : "NULL");
+*/
 
 /*
 	2. Search path(s), sort in accending order per length.
@@ -50,5 +69,7 @@ ft_printf("End: %p\n", g_farm.end);
 //	escort_ants(farm, path_list);
 
 //	free_all_data();
+
+//system("leaks -quiet lem-in");
 	return (0);
 }

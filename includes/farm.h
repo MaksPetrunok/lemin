@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 17:49:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/03/05 19:08:08 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/12 13:51:44 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,32 @@ typedef struct		s_state_trans
 ** farm.c
 */
 int				make_farm(void);
+int				add_input(char *str);
 
 /*
 ** node.c
 */
 t_node			*init_node(const char *str);
+int				add_link(t_node *node, t_node *adj);
 void			free_node(t_node *node);
 
 /*
-** farm_lex.c
+** lex_func1.c
 */
+int					set_err(char *str);
 int					set_ants(char *str);
 int					set_room(char *str);
+
+/*
+** lex_func2.c
+*/
 int					set_link(char *str);
 int					set_cmd(char *str);
-int					set_err(char *str);
+
+/*
+** token_check.c
+*/
+int					is_room(const char *str);
+int					is_link(const char *str);
 
 #endif

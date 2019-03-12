@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/06 15:38:01 by mpetruno          #+#    #+#              #
-#    Updated: 2019/03/07 22:00:24 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/03/12 13:52:00 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,9 @@ MAIN_FILES =	main.c \
 				hashmap/hm_util.c \
 				node.c \
 				farm.c \
-				read_inp.c #remove me
+				lex_func1.c \
+				lex_func2.c \
+				token_check.c
 				
 
 

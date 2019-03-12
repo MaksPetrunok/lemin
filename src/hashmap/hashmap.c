@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 17:00:30 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/03/05 18:25:46 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/12 13:21:26 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ void		free_hashmap(t_hashmap *map)
 		while (e)
 		{
 			free((void *)(e->key));
-//			free((void *)(e->value));
 			tmp = e;
 			e = e->next;
 			free((void *)tmp);
