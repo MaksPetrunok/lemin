@@ -1,0 +1,10 @@
+22
+A 0 2
+B 3 3
+##start
+O3 3
+##end
+G 4 4
+A-B
+O-B
+G-A

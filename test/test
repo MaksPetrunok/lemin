@@ -1,0 +1,11 @@
+#!/bin/bash
+
+make -C ../ --silent
+
+echo "Incorrect input files:"
+for file in ./invalid/*;
+do
+	echo -n "$file: "
+	../lem-in < $file
+done
+
