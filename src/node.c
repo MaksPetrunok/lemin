@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 09:47:38 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/03/12 13:23:23 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/12 20:31:53 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ t_node		*init_node(const char *str)
 		else
 			ft_dprintf(2,
 				"memory allocation error when initializing node '%s'\n", str);
-		if (node)
-			free((void *)(node->id));
-		free((void *)node);
 		return (NULL);
 	}
 	node->x = ft_atoi(ptr);
 	node->y = ft_atoi(ft_strchr(ptr + 1, ' '));
 	node->adj = NULL;
+	node->ant = 0;
+	node->visited = NULL;
+	node->dist = 2000000;
 	return (node);
 }
 

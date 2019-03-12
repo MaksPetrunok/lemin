@@ -1,8 +1,18 @@
-// header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/12 20:00:51 by mpetruno          #+#    #+#             */
+/*   Updated: 2019/03/12 20:01:01 by mpetruno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "lemin.h"
 
-
+// debug function
 void	print_hashmap(t_hashmap *hm)
 {
 	ft_printf("--------- Node hashmap ---------\n");
@@ -29,6 +39,34 @@ void	print_hashmap(t_hashmap *hm)
 	}
 	ft_printf("--------- End hashmap ---------\n");
 }
+
+/*
+ * Max number of paths = MIN(N_START, N_ENT),
+ * where N_START and N_END are numbers
+ * of adjacent nodes at start and end nodes respectively.
+ *
+ * 1. Find all possible paths:
+ * for each start_node in start.adj_lst
+ *   for each end_node in end.adj_lst
+ *     find_path(start_node, end_node)
+ *   next end_node
+ * next start_node
+ *
+ * 2. Sort obtained paths in (1) per path length.
+ *
+ * 3. Set paths into groups, so 1 group contains bunch of non-crossing paths.
+ *
+ *
+ * BFS:
+ * Queue = Start.adj_lst
+ * for each node in queue
+ *   if node == end
+ *     return true
+ *   else if !empty(node.adj_lst)
+ *     queue.add(node.adj_lst)
+ *   else
+ *     return false
+*/
 
 int	main(void)
 {
@@ -70,6 +108,6 @@ ft_printf("End: %s\n", g_farm.end ? g_farm.end->id : "NULL");
 
 //	free_all_data();
 
-//system("leaks -quiet lem-in");
+system("leaks -quiet lem-in");
 	return (0);
 }
