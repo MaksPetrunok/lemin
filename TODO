@@ -1,2 +1,4 @@
+1. Check if start != end
+1.1. Check if room name contains '-'.
 2. Implement make_map and lexer.
 3. Handle errors in input.

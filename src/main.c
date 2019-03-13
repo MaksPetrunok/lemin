@@ -23,9 +23,10 @@ void	print_hashmap(t_hashmap *hm)
 			t_hment *tmp = hm->list[i];
 			while (tmp)
 			{
-				ft_printf("Hashmap[%d]: %s\n", i, tmp->key);
+				ft_printf("Hashmap[%d]:	%s | ", i, tmp->key);
 				t_node *n = NODE(tmp->value);
-				ft_printf("Node: %s(%d, %d) ->", n->id, n->x, n->y);
+				ft_printf("Node: %s(%d, %d) V%d P%d D%d ->",
+							n->id, n->x, n->y, n->visit, n->in_path, n->dist);
 				t_adj_lst *adj = n->adj;
 				while (adj)
 				{
@@ -72,6 +73,15 @@ int	main(void)
 {
 	if (!make_farm())
 		return (1);
+	if (!bfs(g_farm.start))
+	{
+		ft_dprintf(2, "lem-in: there is no path between start and end rooms\n");
+		exit(1);
+	}
+	if (!bfs(g_farm.start))
+	{
+		ft_dprintf(2, "lem-in: SECOND NOT FOUND\n");
+	}
 
 	while (g_input)
 	{
@@ -83,8 +93,9 @@ int	main(void)
 
 		g_input = tmp;
 	}
-/*
 print_hashmap(g_farm.map);
+
+/*
 ft_printf("Start: %s\n", g_farm.start ? g_farm.start->id : "NULL");
 ft_printf("End: %s\n", g_farm.end ? g_farm.end->id : "NULL");
 */

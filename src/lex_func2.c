@@ -76,14 +76,14 @@ int			set_link(char *str)
 	}
 	id2 = ft_strchr(id1, '-');
 	*id2++ = '\0';
-	if ((n1 = hmap_get(id1, g_farm.map)) == NULL ||
-		(n2 = hmap_get(id2, g_farm.map)) == NULL)
+	if ((n1 = NODE(hmap_get(id1, g_farm.map))) == NULL ||
+		(n2 = NODE(hmap_get(id2, g_farm.map))) == NULL)
 	{
 		ft_dprintf(2, "lem-in: room '%s' not found\n", n1 ? id2 : id1);
 		exit(1);
 	}
 	free((void *)id1);
-	if (!add_link(n1, n2) || !add_link(n2, n1))
+	if (!add_link(n1, n2))
 		return (-1);
 	add_input(str);
 	return (1);

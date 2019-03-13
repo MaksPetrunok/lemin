@@ -30,14 +30,20 @@
 # define NODE(X) (t_node *)X
 
 typedef struct s_adj_lst	t_adj_lst;
+typedef struct s_node		t_node;
 
-typedef struct	s_node
+struct			s_node
 {
 	char		*id;
 	int			x;
 	int			y;
+	int			ant;
+	int			in_path;
+	int			visit;
+	int			dist;
+	t_node		*prev;
 	t_adj_lst	*adj;
-}				t_node;
+};
 
 struct			s_adj_lst
 {
@@ -93,5 +99,10 @@ int					set_cmd(char *str);
 */
 int					is_room(const char *str);
 int					is_link(const char *str);
+
+/*
+** path.c
+*/
+int					bfs(t_node *n);
 
 #endif

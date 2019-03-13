@@ -14,7 +14,7 @@ NAME = lem-in
 
 CC = gcc
 
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS = -Wall -Werror -Wextra -g -fsanitize=leak# -fsanitize=address
 
 SRC_DIR = ./src/
 OBJ_DIR = ./obj/
@@ -33,7 +33,8 @@ MAIN_FILES =	main.c \
 				farm.c \
 				lex_func1.c \
 				lex_func2.c \
-				token_check.c
+				token_check.c \
+				path.c
 				
 
 

@@ -36,8 +36,9 @@ t_node		*init_node(const char *str)
 	node->y = ft_atoi(ft_strchr(ptr + 1, ' '));
 	node->adj = NULL;
 	node->ant = 0;
-	node->visited = NULL;
-	node->dist = 2000000;
+	node->prev = NULL;
+	node->visit = 0;
+	node->in_path = 0;
 	return (node);
 }
 
@@ -68,18 +69,23 @@ static int	check_link(t_node *node, t_node *adj)
 
 int			add_link(t_node *node, t_node *adj)
 {
-	t_adj_lst	*link;
+	t_adj_lst	*link_1;
+	t_adj_lst	*link_2;
 
 	if (!check_link(node, adj))
 		return (0);
-	if ((link = malloc(sizeof(t_adj_lst))) == NULL)
+	if ((link_1 = malloc(sizeof(t_adj_lst))) == NULL ||
+		(link_2 = malloc(sizeof(t_adj_lst))) == NULL)
 	{
 		perror("lem-in: ");
-		return (0);
+		exit(1);
 	}
-	link->node = adj;
-	link->next = node->adj;
-	node->adj = link;
+	link_1->node = adj;
+	link_1->next = node->adj;
+	node->adj = link_1;
+	link_2->node = node;
+	link_2->next = adj->adj;
+	adj->adj = link_2;
 	return (1);
 }
 
