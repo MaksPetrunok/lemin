@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 09:47:29 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/03/12 13:52:29 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/14 21:07:05 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,6 @@ int			make_farm(void)
 			return (0);
 		state = g_fsm_table[state][inp_sig].state;
 	}
+	g_farm.path_id = 1;
 	return (check_farm());
 }

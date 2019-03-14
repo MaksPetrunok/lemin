@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 17:49:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/03/14 13:44:18 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/14 21:06:01 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct		s_farm
 {
 	int				ants_number;
 	int				next_ant;
+	int				path_id;
 	t_node			*start;
 	t_node			*end;
 	t_hashmap		*map;

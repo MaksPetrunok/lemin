@@ -21,6 +21,7 @@ do
 	echo -n generate "--$flag" ">" test/maps/$flag" ($1)	"
 	for i in $(seq 1 $N)
 	do
+		sleep 0.8
 		./generator "--$flag" > test/maps/$flag"_$i"
 		echo -n '#'
 	done

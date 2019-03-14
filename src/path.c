@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 20:31:16 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/03/14 16:19:48 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/14 21:08:39 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,16 @@ ft_printf("END: %s\n", g_farm.end->id);
 	g_farm.end->dist = dist++;
 	while (n->in_path == 0 && n != g_farm.start)
 	{
-ft_printf("N> : %s	Distance to end: %d\n", n->id, dist);
-		n->in_path = 1;
+ft_printf("N> : %s	Dist to end: %d, PathID: %d\n", n->id, dist, g_farm.path_id);
+		n->in_path = g_farm.path_id;
 		n->dist = dist++;
 		n = n->prev;
 	}
+	g_farm.path_id++;
 	if (n != g_farm.start)
 		ft_printf("START NOT REACHED!\n");
 	else
 ft_printf("START: %s\n", g_farm.start->id);
-ft_printf("Path Length: %d\n", g_farm.start->id);
 }
 
 static void			free_queue(t_queue *q)
@@ -132,11 +132,9 @@ int	bfs(t_node *n)
 	queue = init_queue(n);
 	while (queue->lst) // && has_unvisited(start) && has_unvisited(end))
 	{
-//ft_printf("Queue: %s:\n", queue->lst->node->id);
 		tmp = queue->lst->node->adj;
 		while (tmp)
 		{
-//ft_printf("  adj: %s:\n", tmp->node->id);
 			if (tmp->node == g_farm.end)
 			{
 				make_path(queue->lst->node);
@@ -152,3 +150,10 @@ int	bfs(t_node *n)
 	free_queue(queue);
 	return (0);
 }
+
+/*
+ * Find alternative path:
+ *
+ * From g_farm.start perform BFS.
+ * If g_farm.end node reached - calculate new path length
+ */
