@@ -1,0 +1,50 @@
+Queue: S_z0:
+  adj: Uq_2:
+  adj: Bbe9:
+  adj: Xuo4:
+  adj: Ijn4:
+Queue: Ijn4:
+  adj: Rgs1:
+  adj: S_z0:
+Queue: Xuo4:
+  adj: Gdx1:
+  adj: S_z0:
+Queue: Bbe9:
+  adj: Uyv1:
+  adj: S_z0:
+Queue: Uq_2:
+  adj: Chb2:
+  adj: S_z0:
+Queue: Chb2:
+  adj: Jjm0:
+  adj: Uq_2:
+Queue: Jjm0:
+  adj: Chb2:
+  adj: Uyc3:
+  adj: N_s2:
+Queue: N_s2:
+  adj: Jjm0:
+Queue: Uyc3:
+  adj: Jjm0:
+  adj: Qji8:
+Queue: Qji8:
+  adj: Spz6:
+  adj: Uyc3:
+Queue: Spz6:
+  adj: Qji8:
+  adj: Jom2:
+Queue: Jom2:
+  adj: Spz6:
+  adj: Idp1:
+Queue: Idp1:
+  adj: Gxg3:
+  adj: Fhr3:
+  adj: Jom2:
+  adj: Sjy2:
+Queue: Sjy2:
+  adj: Idp1:
+  adj: Fer9:
+Queue: Fhr3:
+  adj: Idp1:
+Queue: Gxg3:
+  adj: Idp1:
