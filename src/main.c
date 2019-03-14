@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 20:00:51 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/03/12 20:01:01 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/14 17:53:41 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,20 @@ void	print_hashmap(t_hashmap *hm)
 
 int	main(void)
 {
+	int	path_exists;
+
 	if (!make_farm())
 		return (1);
-	if (!bfs(g_farm.start))
+	path_exists = 0;
+	while (bfs(g_farm.start))
+	{
+		path_exists = 1;
+ft_printf("-------------------------------------------------------------\n");
+	}
+	if (!path_exists)
 	{
 		ft_dprintf(2, "lem-in: there is no path between start and end rooms\n");
 		exit(1);
-	}
-	if (!bfs(g_farm.start))
-	{
-		ft_dprintf(2, "lem-in: SECOND NOT FOUND\n");
 	}
 
 	while (g_input)
@@ -93,7 +97,7 @@ int	main(void)
 
 		g_input = tmp;
 	}
-print_hashmap(g_farm.map);
+//print_hashmap(g_farm.map);
 
 /*
 ft_printf("Start: %s\n", g_farm.start ? g_farm.start->id : "NULL");
@@ -115,10 +119,11 @@ ft_printf("End: %s\n", g_farm.end ? g_farm.end->id : "NULL");
 	Print provided farm data and escort ants to the exit.
 */
 //	print_data(); // number of ants, rooms, links
-//	escort_ants(farm, path_list);
+	ft_printf("\n");
+	escort_ants();
 
 //	free_all_data();
 
-system("leaks -quiet lem-in");
+//system("leaks -quiet lem-in");
 	return (0);
 }

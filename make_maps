@@ -1,0 +1,28 @@
+#!/bin/bash
+
+if ! [[ $1 =~ ^[0-9]+$ ]]
+then
+	echo "usage: ./make_maps [n]"
+	echo "       n - number of each map to be generated"
+	exit
+fi
+
+N=$1
+
+arr=("flow-one" \
+	"flow-ten" \
+	"flow-thousand" \
+	"big" \
+	"big-superposition")
+
+
+for flag in ${arr[*]}
+do
+	echo -n generate "--$flag" ">" test/maps/$flag" ($1)	"
+	for i in $(seq 1 $N)
+	do
+		./generator "--$flag" > test/maps/$flag"_$i"
+		echo -n '#'
+	done
+	echo
+done

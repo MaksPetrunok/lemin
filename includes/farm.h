@@ -6,7 +6,7 @@
 /*   By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 17:49:43 by mpetruno          #+#    #+#             */
-/*   Updated: 2019/03/12 13:51:44 by mpetruno         ###   ########.fr       */
+/*   Updated: 2019/03/14 13:44:18 by mpetruno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 typedef struct s_adj_lst	t_adj_lst;
 typedef struct s_node		t_node;
+typedef struct s_queue		t_queue;
 
 struct			s_node
 {
@@ -45,6 +46,12 @@ struct			s_node
 	t_adj_lst	*adj;
 };
 
+struct			s_queue
+{
+	t_adj_lst	*lst;
+	t_adj_lst	*last;
+};
+
 struct			s_adj_lst
 {
 	t_node		*node;
@@ -54,6 +61,7 @@ struct			s_adj_lst
 typedef struct		s_farm
 {
 	int				ants_number;
+	int				next_ant;
 	t_node			*start;
 	t_node			*end;
 	t_hashmap		*map;

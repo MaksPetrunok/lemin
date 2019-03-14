@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/06 15:38:01 by mpetruno          #+#    #+#              #
-#    Updated: 2019/03/12 13:52:00 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/03/14 17:47:40 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = lem-in
 
 CC = gcc
 
-FLAGS = -Wall -Werror -Wextra -g -fsanitize=leak# -fsanitize=address
+FLAGS = -Wall -Werror -Wextra -g# -fsanitize=address
 
 SRC_DIR = ./src/
 OBJ_DIR = ./obj/
@@ -34,7 +34,8 @@ MAIN_FILES =	main.c \
 				lex_func1.c \
 				lex_func2.c \
 				token_check.c \
-				path.c
+				path.c \
+				escort.c
 				
 
 

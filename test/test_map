@@ -1,0 +1,49 @@
+#!/bin/bash
+
+make -C ../ --silent
+
+
+LEN=0
+
+for file in ./maps/*;
+do
+	L=$(echo -n $file | wc -c)
+	if [ $L -gt $LEN ]
+    then
+        LEN=$L
+    fi
+done
+
+echo "------------ Lem-in Summary ------------"
+
+for file in ./maps/*;
+do
+	STR=`grep -m 1 "#Here is the number of lines required:" $file`
+	N_REQ="${STR//[!0-9]/}"
+	N_RES=`../lem-in < $file | grep "^L[1-9].*" | wc -l`
+	D=$(($N_RES - $N_REQ))
+
+	printf "Map: %-*s | Ref: %3d | Lem-in: %4d | Difference: "\
+		$LEN\
+		$file\
+		$N_REQ\
+		$N_RES
+	if [ $D -gt 3 ]
+	then
+		tput setaf 1
+		tput blink
+		echo "$D"
+		tput sgr0
+	else
+		if [ $D -gt 1 ]
+		then
+			tput setaf 3
+			tput blink
+			echo "$D"
+			tput sgr0
+		else
+			echo "$D"
+		fi
+	fi
+done
+

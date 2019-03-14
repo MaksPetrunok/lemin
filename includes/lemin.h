@@ -21,6 +21,7 @@ extern t_farm		g_farm;
 extern t_inp_lst	*g_input;
 
 int					add_input(char *str);
+void				escort_ants(void);
 
 
 #endif
