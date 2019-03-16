@@ -9,6 +9,9 @@
 # include "hashmap.h"
 # include "farm.h"
 
+# define MIN(X, Y)	(X < Y) ? X : Y
+# define MAX(X, Y)	(X > Y) ? X : Y
+
 typedef struct s_inp_lst	t_inp_lst;
 
 struct			s_inp_lst
@@ -21,7 +24,22 @@ extern t_farm		g_farm;
 extern t_inp_lst	*g_input;
 
 int					add_input(char *str);
+void				relink(t_node *n);
 void				escort_ants(void);
 
+
+/*
+** fork.c
+*/
+void				unfork(t_node *n);
+
+/*
+** queue.c
+*/
+t_queue	*init_queue(t_node *node);
+void	queue_add(t_node *node, t_node *prev, t_queue *queue);
+void	free_queue(t_queue *q);
+void	queue_next(t_queue *queue);
+int		find_paths(t_node *n);
 
 #endif

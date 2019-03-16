@@ -39,6 +39,9 @@ t_node		*init_node(const char *str)
 	node->prev = NULL;
 	node->visit = 0;
 	node->in_path = 0;
+	node->dist = 2000000;
+node->in = NULL;
+node->out = NULL;
 	return (node);
 }
 
@@ -87,6 +90,30 @@ int			add_link(t_node *node, t_node *adj)
 	link_2->next = adj->adj;
 	adj->adj = link_2;
 	return (1);
+}
+
+
+/*
+** Removes only link to adjacent node in current node.
+** Link in adjacent node remains unchanged.
+*/
+void		remove_link(t_node *n1, t_adj_lst *adj)
+{
+	t_adj_lst	*tmp;
+
+	if (n1->adj == adj)
+		n1->adj = adj->next;
+	else
+	{
+		tmp = n1->adj;
+		while (tmp && tmp->next)
+		{
+			if (tmp->next == adj)
+				tmp->next = adj->next;
+			tmp = tmp->next;
+		}
+	}
+	free((void *)adj);
 }
 
 void		free_node(t_node *node)

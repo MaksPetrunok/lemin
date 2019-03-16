@@ -44,6 +44,8 @@ struct			s_node
 	int			dist;
 	t_node		*prev;
 	t_adj_lst	*adj;
+	t_adj_lst	*in;
+	t_adj_lst	*out;
 };
 
 struct			s_queue
@@ -88,6 +90,7 @@ int				add_input(char *str);
 */
 t_node			*init_node(const char *str);
 int				add_link(t_node *node, t_node *adj);
+void			remove_link(t_node *node, t_adj_lst *adj);
 void			free_node(t_node *node);
 
 /*
@@ -113,5 +116,6 @@ int					is_link(const char *str);
 ** path.c
 */
 int					bfs(t_node *n);
+void				refresh_graph(t_node *n);
 
 #endif

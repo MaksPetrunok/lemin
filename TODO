@@ -1,3 +1,6 @@
+Try set direct links on first BFS, if there already is direct link in opposite
+direction - skip adding new direct link.
+
 1. Check if start != end
 1.1. Check if room name contains '-'.
 2. Implement make_map and lexer.

@@ -16,6 +16,7 @@ int	set_err(char *str)
 {
 	ft_dprintf(2, "lem-in: unexpected token '%s'\n",
 			*str == '\0' ? "empty line" : str);
+	free((void *)str);
 	return (-1);
 }
 

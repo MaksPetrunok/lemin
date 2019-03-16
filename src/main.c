@@ -33,6 +33,20 @@ void	print_hashmap(t_hashmap *hm)
 					ft_printf(" %s", adj->node->id);
 					adj = adj->next;
 				}
+				ft_printf(" | IN:");
+				adj = n->in;
+				while (adj)
+				{
+					ft_printf(" %s", adj->node->id);
+					adj = adj->next;
+				}
+				ft_printf(" | OUT:");
+				adj = n->out;
+				while (adj)
+				{
+					ft_printf(" %s", adj->node->id);
+					adj = adj->next;
+				}
 				ft_printf("\n");
 				tmp = tmp->next;
 			}
@@ -71,21 +85,23 @@ void	print_hashmap(t_hashmap *hm)
 
 int	main(void)
 {
-	int	path_exists;
-
 	if (!make_farm())
 		return (1);
-	path_exists = 0;
-	while (bfs(g_farm.start))
-	{
-		path_exists = 1;
-ft_printf("-------------------------------------------------------------\n");
-	}
-	if (!path_exists)
+ft_printf("Initial graph:\n");
+print_hashmap(g_farm.map); // DEBUG
+	if (!bfs(g_farm.start))
 	{
 		ft_dprintf(2, "lem-in: there is no path between start and end rooms\n");
 		exit(1);
 	}
+ft_printf("After BFS evaluation:\n");
+print_hashmap(g_farm.map); // DEBUG
+	relink(g_farm.start);
+ft_printf("After I/O relinking:\n");
+print_hashmap(g_farm.map); // DEBUG
+	unfork(g_farm.start);
+ft_printf("After removing input forks:\n");
+print_hashmap(g_farm.map); // DEBUG
 
 	while (g_input)
 	{
@@ -97,8 +113,7 @@ ft_printf("-------------------------------------------------------------\n");
 
 		g_input = tmp;
 	}
-//print_hashmap(g_farm.map);
-
+find_paths(g_farm.start);
 /*
 ft_printf("Start: %s\n", g_farm.start ? g_farm.start->id : "NULL");
 ft_printf("End: %s\n", g_farm.end ? g_farm.end->id : "NULL");

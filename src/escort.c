@@ -12,35 +12,6 @@
 
 #include "lemin.h"
 
-/*
-struct list *sort( struct list *root )
-{
-    struct list *new_root = NULL;
-
-    while ( root != NULL )
-    {
-        struct list *node = root;
-        root = root->next;
-
-        if ( new_root == NULL || node->data < new_root->data )
-        {
-            node->next = new_root;
-            new_root = node;
-        }
-        else
-        {
-            struct list *current = new_root;
-            while ( current->next != NULL && !( node->data < current->next->data ) )
-            {                   
-                  current = current->next;
-            }                
-            node->next = current->next;
-            current->next = node;
-        }
-    }
-    return new_root;
-}
-*/
 static int	g_min_dist = 999999;
 
 static void	sort_paths(void)
@@ -50,12 +21,12 @@ static void	sort_paths(void)
 	t_adj_lst	*iter;
 
 	head = NULL;
-	while (g_farm.start->adj != NULL)
+	while (g_farm.start->out != NULL)
 	{
-		tmp = g_farm.start->adj;
+		tmp = g_farm.start->out;
 		g_min_dist =
 			(tmp->node->dist < g_min_dist) ? tmp->node->dist : g_min_dist;
-		g_farm.start->adj = g_farm.start->adj->next;
+		g_farm.start->out = g_farm.start->out->next;
 		if (!head || tmp->node->dist < head->node->dist)
 		{
 			tmp->next = head;
@@ -68,7 +39,7 @@ static void	sort_paths(void)
 		tmp->next = iter->next;
 		iter->next = tmp;
 	}
-	g_farm.start->adj = head;
+	g_farm.start->out = head;
 }
 
 static int	move(t_node *from, t_node *to)
@@ -110,7 +81,7 @@ static int	push_ants(void)
 	t_adj_lst	*adj;
 	int			moved_ants;
 
-	adj = g_farm.start->adj;
+	adj = g_farm.start->out;
 	moved_ants = 0;
 	while (adj && g_farm.next_ant <= g_farm.ants_number)
 	{
