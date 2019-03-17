@@ -38,10 +38,12 @@ MAIN_FILES =	main.c \
 				lex_func2.c \
 				token_check.c \
 				queue.c \
+				ant_queue.c \
 				path.c \
 				relink.c \
 				fork.c \
 				find_paths.c \
+				sort.c \
 				escort.c
 				
 

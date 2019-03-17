@@ -32,6 +32,22 @@
 typedef struct s_adj_lst	t_adj_lst;
 typedef struct s_node		t_node;
 typedef struct s_queue		t_queue;
+typedef struct s_ant_queue		t_ant_queue;
+typedef struct s_ant		t_ant;
+
+struct			s_ant
+{
+	int			id;
+	t_node		*node;
+	t_ant		*next;
+};
+
+struct			s_ant_queue
+{
+	t_ant		*lst;
+	t_ant		*last;
+};
+
 
 struct			s_node
 {
@@ -65,6 +81,8 @@ typedef struct		s_farm
 	int				ants_number;
 	int				next_ant;
 	int				path_id;
+	int				inputs;
+	int				outputs;
 	t_node			*start;
 	t_node			*end;
 	t_hashmap		*map;
@@ -115,7 +133,8 @@ int					is_link(const char *str);
 /*
 ** path.c
 */
-int					bfs(t_node *n);
+int					count_paths(t_node *n, t_node *dst);
+int					count_inputs(void);
 void				refresh_graph(t_node *n);
 
 #endif

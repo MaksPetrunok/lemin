@@ -83,8 +83,8 @@ void	cleanup(t_node *n)
 	{
 		next = lst->next;
 		adjacent = lst->node;
-		if (adjacent->dist == n->dist)
-			remove_link(n, lst);
+		// if (adjacent->dist == n->dist)
+		// 	remove_link(n, lst);
 		if (adjacent->dist > n->dist && adjacent != g_farm.end)
 			cleanup(adjacent);
 		lst = next;
@@ -97,8 +97,24 @@ void	cleanup(t_node *n)
 	}
 }
 
+int	count_inputs(void)
+{
+	t_adj_lst	*lst;
+	int			count;
+
+	count = 0;
+	lst = g_farm.end->adj;
+	while (lst)
+	{
+		if (lst->node->dist < 2000000)
+			count++;
+		lst = lst->next;
+	}
+	return (count);
+}
+
 // if path from node 'n' to node 'end' found - return 1, otherwise return 0
-int	bfs(t_node *n)
+int	count_paths(t_node *n, t_node *dst)
 {
 	t_queue		*queue;
 	t_adj_lst	*tmp;
@@ -107,13 +123,13 @@ int	bfs(t_node *n)
 	path_found = 0;
 	n->dist = 0;
 	queue = init_queue(n);
-	while (queue->lst) // && has_unvisited(start) && has_unvisited(end))
+	while (queue->lst)
 	{
 		tmp = queue->lst->node->adj;
 		while (tmp)
 		{
-			if (tmp->node == g_farm.end)
-				path_found = 1;
+			if (tmp->node == dst)
+				path_found++;
 			else
 				queue_add(tmp->node, queue->lst->node, queue);
 			tmp = tmp->next;
@@ -121,7 +137,7 @@ int	bfs(t_node *n)
 		queue_next(queue);
 	}
 	free_queue(queue);
-	cleanup(g_farm.start);
-	refresh_graph(g_farm.start);
+	cleanup(n);
+	refresh_graph(n);
 	return (path_found);
 }

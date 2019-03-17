@@ -42,4 +42,19 @@ void	free_queue(t_queue *q);
 void	queue_next(t_queue *queue);
 int		find_paths(t_node *n);
 
+/*
+** sort.c
+*/
+void	sort_paths(t_node *n);
+
+/*
+** ant_queue.c
+*/
+t_ant_queue			*init_ants(void);
+void				ant_queue_add(int id, t_node *node, t_ant_queue *queue);
+void				ant_free_queue(t_ant_queue *q);
+void				ant_queue_next(t_ant_queue *queue);
+void				ant_queue_push(t_ant_queue *queue);
+
+
 #endif

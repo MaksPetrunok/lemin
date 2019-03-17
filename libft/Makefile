@@ -14,7 +14,7 @@ NAME = libft.a
 
 CC = gcc
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra# -fsanitize=address
 
 SRC_DIR = ./src/
 OBJ_DIR = ./obj/

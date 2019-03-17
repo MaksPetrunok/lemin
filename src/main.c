@@ -87,22 +87,33 @@ int	main(void)
 {
 	if (!make_farm())
 		return (1);
-ft_printf("Initial graph:\n");
-print_hashmap(g_farm.map); // DEBUG
-	if (!bfs(g_farm.start))
+	g_farm.outputs = count_paths(g_farm.end, g_farm.start);
+	g_farm.inputs = count_inputs();
+	// g_farm.inputs = count_paths(g_farm.end, g_farm.start);
+	if (g_farm.outputs == 0)
 	{
 		ft_dprintf(2, "lem-in: there is no path between start and end rooms\n");
 		exit(1);
 	}
-ft_printf("After BFS evaluation:\n");
-print_hashmap(g_farm.map); // DEBUG
-	relink(g_farm.start);
-ft_printf("After I/O relinking:\n");
-print_hashmap(g_farm.map); // DEBUG
-	unfork(g_farm.start);
-ft_printf("After removing input forks:\n");
-print_hashmap(g_farm.map); // DEBUG
+// ft_printf("n_outputs = %d\n", g_farm.outputs);
+// ft_printf("n_inputs = %d\n", g_farm.inputs);
 
+// ft_printf("Initial graph:\n");
+// print_hashmap(g_farm.map); // DEBUG
+
+
+// ft_printf("After BFS evaluation:\n");
+// print_hashmap(g_farm.map); // DEBUG
+// 	relink(g_farm.start);
+// ft_printf("After I/O relinking:\n");
+// print_hashmap(g_farm.map); // DEBUG
+// 	unfork(g_farm.start);
+// ft_printf("After removing input forks:\n");
+// print_hashmap(g_farm.map); // DEBUG
+
+sort_paths(g_farm.start);
+// ft_printf("After sorting input:\n");
+// print_hashmap(g_farm.map); // DEBUG
 	while (g_input)
 	{
 		t_inp_lst *tmp = g_input->next;
@@ -113,7 +124,8 @@ print_hashmap(g_farm.map); // DEBUG
 
 		g_input = tmp;
 	}
-find_paths(g_farm.start);
+// find_paths(g_farm.start);
+
 /*
 ft_printf("Start: %s\n", g_farm.start ? g_farm.start->id : "NULL");
 ft_printf("End: %s\n", g_farm.end ? g_farm.end->id : "NULL");
@@ -134,7 +146,7 @@ ft_printf("End: %s\n", g_farm.end ? g_farm.end->id : "NULL");
 	Print provided farm data and escort ants to the exit.
 */
 //	print_data(); // number of ants, rooms, links
-	ft_printf("\n");
+	// ft_printf("\n");
 	escort_ants();
 
 //	free_all_data();

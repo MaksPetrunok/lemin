@@ -12,103 +12,90 @@
 
 #include "lemin.h"
 
-static int	g_min_dist = 999999;
-
-static void	sort_paths(void)
+static void	move_ant(t_ant *ant)
 {
-	t_adj_lst	*head;
-	t_adj_lst	*tmp;
-	t_adj_lst	*iter;
+	t_adj_lst	*lst;
 
-	head = NULL;
-	while (g_farm.start->out != NULL)
+	lst = ant->node->adj;
+	while (lst)
 	{
-		tmp = g_farm.start->out;
-		g_min_dist =
-			(tmp->node->dist < g_min_dist) ? tmp->node->dist : g_min_dist;
-		g_farm.start->out = g_farm.start->out->next;
-		if (!head || tmp->node->dist < head->node->dist)
+		// add smart conditions
+		// use direct links
+		if (lst->node->ant == 0 && lst->node->dist <= ant->node->dist)
 		{
-			tmp->next = head;
-			head = tmp;
-			continue ;
+			ft_printf("L%d-%s ", ant->id, lst->node->id);
+			if (lst->node != g_farm.end)
+				lst->node->ant = ant->id;
+			else
+				lst->node->ant = 0;
+			ant->node->ant = 0;
+			ant->node = lst->node;
+			break ;
 		}
-		iter = head;
-		while (iter->next && tmp->node->dist > iter->next->node->dist)
-			iter = iter->next;
-		tmp->next = iter->next;
-		iter->next = tmp;
+		lst = lst->next;
 	}
-	g_farm.start->out = head;
 }
 
-static int	move(t_node *from, t_node *to)
+static void	add_ants(t_ant_queue *q)
 {
-	int	ret;
+	t_adj_lst	*lst;
 
-	ret = 0;
-	if (from == g_farm.start)
-		return (0);
-	if (from->ant != 0)
+	lst = g_farm.start->adj;
+	while (lst && g_farm.next_ant <= g_farm.ants_number)
 	{
-		ft_printf("L%d-%s ", from->ant, to->id);
-		to->ant = from->ant;
-		from->ant = 0;
-		ret++;
-	}
-	ret += move(from->prev, from);
-	return (ret);
-}
-
-static int	pull_ants(void)
-{
-	t_adj_lst	*adj;
-	int			moved_ants;
-
-	adj = g_farm.end->adj;
-	moved_ants = 0;
-	while (adj)
-	{
-		if (adj->node->in_path)
-			moved_ants += move(adj->node, g_farm.end);
-		adj = adj->next;
-	}
-	return (moved_ants);
-}
-
-static int	push_ants(void)
-{
-	t_adj_lst	*adj;
-	int			moved_ants;
-
-	adj = g_farm.start->out;
-	moved_ants = 0;
-	while (adj && g_farm.next_ant <= g_farm.ants_number)
-	{
-		if (adj->node->in_path &&
-			(g_farm.ants_number - g_farm.next_ant + 1 >=
-			 adj->node->dist - g_min_dist))
+		// add smart conditions
+// ft_printf("Try add ant\n");
+		if (lst->node->ant == 0 && lst->node->dist < 2000000)
 		{
-			ft_printf("L%d-%s ", g_farm.next_ant, adj->node->id);
-			adj->node->ant = g_farm.next_ant++;
-			moved_ants++;
+			ft_printf("L%d-%s ", g_farm.next_ant, lst->node->id);
+			ant_queue_add(g_farm.next_ant, lst->node, q);
+			lst->node->ant = g_farm.next_ant++;
 		}
-		adj = adj->next;
+		lst = lst->next;
 	}
-	return (moved_ants);
+}
+
+t_ant_queue	*init_ants(void)
+{
+	t_ant_queue	*q;
+
+	if ((q = malloc(sizeof(t_ant_queue))) == NULL)
+	{
+		perror("lem-in: ");
+		exit(1);
+	}
+	q->lst = NULL;
+	q->last = NULL;
+	add_ants(q);
+	ft_printf("\n");
+	return (q);
 }
 
 void	escort_ants(void)
 {
-	int	ants_on_road;
+	t_ant_queue	*queue;
+	t_ant		*ant;
 
-	sort_paths();
-	ants_on_road = 1;
+	ft_printf("\n");
 	g_farm.next_ant = 1;
-	while (ants_on_road)
+	queue = init_ants(); // fill queue with ants for first set of nodes
+// ft_printf("Ants: %p\n", queue->lst);
+	while (queue->lst)
 	{
-		ants_on_road = pull_ants();
-		ants_on_road = push_ants() || ants_on_road;
+		while (queue->lst && queue->lst->node == g_farm.end)
+			ant_queue_next(queue);
+		ant = queue->lst;
+		while (ant)
+		{
+// ft_printf("Move ant %d\n", ant->id);
+			move_ant(ant);
+			// if (ant->node == g_farm.end)
+			// 	ant_queue_next(queue);
+			ant = ant->next;
+		}
+// exit(2);
+		add_ants(queue);
 		ft_printf("\n");
 	}
+	free((void *)queue);
 }
