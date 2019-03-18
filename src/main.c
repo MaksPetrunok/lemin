@@ -55,38 +55,12 @@ void	print_hashmap(t_hashmap *hm)
 	ft_printf("--------- End hashmap ---------\n");
 }
 
-/*
- * Max number of paths = MIN(N_START, N_ENT),
- * where N_START and N_END are numbers
- * of adjacent nodes at start and end nodes respectively.
- *
- * 1. Find all possible paths:
- * for each start_node in start.adj_lst
- *   for each end_node in end.adj_lst
- *     find_path(start_node, end_node)
- *   next end_node
- * next start_node
- *
- * 2. Sort obtained paths in (1) per path length.
- *
- * 3. Set paths into groups, so 1 group contains bunch of non-crossing paths.
- *
- *
- * BFS:
- * Queue = Start.adj_lst
- * for each node in queue
- *   if node == end
- *     return true
- *   else if !empty(node.adj_lst)
- *     queue.add(node.adj_lst)
- *   else
- *     return false
-*/
-
 int	main(void)
 {
 	if (!make_farm())
 		return (1);
+ft_printf("Initial graph:\n");
+print_hashmap(g_farm.map); // DEBUG
 	g_farm.outputs = count_paths(g_farm.end, g_farm.start);
 	g_farm.inputs = count_inputs();
 	// g_farm.inputs = count_paths(g_farm.end, g_farm.start);
@@ -98,8 +72,8 @@ int	main(void)
 // ft_printf("n_outputs = %d\n", g_farm.outputs);
 // ft_printf("n_inputs = %d\n", g_farm.inputs);
 
-// ft_printf("Initial graph:\n");
-// print_hashmap(g_farm.map); // DEBUG
+ft_printf("After BFS:\n");
+print_hashmap(g_farm.map); // DEBUG
 
 
 // ft_printf("After BFS evaluation:\n");
@@ -124,29 +98,6 @@ sort_paths(g_farm.start);
 
 		g_input = tmp;
 	}
-// find_paths(g_farm.start);
-
-/*
-ft_printf("Start: %s\n", g_farm.start ? g_farm.start->id : "NULL");
-ft_printf("End: %s\n", g_farm.end ? g_farm.end->id : "NULL");
-*/
-
-/*
-	2. Search path(s), sort in accending order per length.
-	If no path connecting ##start and ##end found, report error.
-*/
-
-//	if ((path_list = find_paths(farm)) == 0)
-//	{
-//		// free farm and any other data
-//		return (1);
-//	}
-
-/*
-	Print provided farm data and escort ants to the exit.
-*/
-//	print_data(); // number of ants, rooms, links
-	// ft_printf("\n");
 	escort_ants();
 
 //	free_all_data();

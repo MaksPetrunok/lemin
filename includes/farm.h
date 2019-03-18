@@ -39,6 +39,7 @@ struct			s_ant
 {
 	int			id;
 	t_node		*node;
+	t_node		*prev_node;
 	t_ant		*next;
 };
 

@@ -21,13 +21,16 @@ static void	move_ant(t_ant *ant)
 	{
 		// add smart conditions
 		// use direct links
-		if (lst->node->ant == 0 && lst->node->dist <= ant->node->dist)
+		if (lst->node != ant->prev_node &&
+			lst->node->ant == 0 &&
+			lst->node->dist <= ant->node->dist)
 		{
 			ft_printf("L%d-%s ", ant->id, lst->node->id);
 			if (lst->node != g_farm.end)
 				lst->node->ant = ant->id;
 			else
 				lst->node->ant = 0;
+			ant->prev_node = ant->node;
 			ant->node->ant = 0;
 			ant->node = lst->node;
 			break ;
@@ -39,17 +42,23 @@ static void	move_ant(t_ant *ant)
 static void	add_ants(t_ant_queue *q)
 {
 	t_adj_lst	*lst;
+	int			ants_sent;
 
+	ants_sent = 0;
 	lst = g_farm.start->adj;
-	while (lst && g_farm.next_ant <= g_farm.ants_number)
+// ft_printf("Max ants = %d\n", MIN(g_farm.inputs, g_farm.outputs));
+	while (lst && ants_sent < (MIN(g_farm.inputs, g_farm.outputs)) && 				g_farm.next_ant <= g_farm.ants_number)
 	{
-		// add smart conditions
-// ft_printf("Try add ant\n");
-		if (lst->node->ant == 0 && lst->node->dist < 2000000)
+		// modify smart conditions ?
+		if (lst->node->ant == 0 && lst->node->dist < 2000000 &&
+			// (lst->node == g_farm.start->adj->node ||
+			(g_farm.ants_number - g_farm.next_ant >= lst->node->dist - g_farm.start->adj->node->dist))//)
 		{
 			ft_printf("L%d-%s ", g_farm.next_ant, lst->node->id);
+			ft_printf("[%d] ", lst->node->dist); // debug
 			ant_queue_add(g_farm.next_ant, lst->node, q);
 			lst->node->ant = g_farm.next_ant++;
+			ants_sent++;
 		}
 		lst = lst->next;
 	}
@@ -78,8 +87,7 @@ void	escort_ants(void)
 
 	ft_printf("\n");
 	g_farm.next_ant = 1;
-	queue = init_ants(); // fill queue with ants for first set of nodes
-// ft_printf("Ants: %p\n", queue->lst);
+	queue = init_ants();
 	while (queue->lst)
 	{
 		while (queue->lst && queue->lst->node == g_farm.end)
@@ -87,13 +95,9 @@ void	escort_ants(void)
 		ant = queue->lst;
 		while (ant)
 		{
-// ft_printf("Move ant %d\n", ant->id);
 			move_ant(ant);
-			// if (ant->node == g_farm.end)
-			// 	ant_queue_next(queue);
 			ant = ant->next;
 		}
-// exit(2);
 		add_ants(queue);
 		ft_printf("\n");
 	}

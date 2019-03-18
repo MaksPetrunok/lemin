@@ -58,6 +58,7 @@ void	ant_queue_add(int id, t_node *node, t_ant_queue *queue)
 	}
 	new->id = id;
 	new->node = node;
+	new->prev_node = g_farm.start;
 	new->next = NULL;
 	if (queue->lst == NULL)
 		queue->lst = new;
