@@ -131,11 +131,6 @@ int					set_cmd(char *str);
 int					is_room(const char *str);
 int					is_link(const char *str);
 
-/*
-** path.c
-*/
-int					count_paths(t_node *n, t_node *dst);
-int					count_inputs(void);
-void				refresh_graph(t_node *n);
+
 
 #endif

@@ -46,9 +46,9 @@ void		sort_paths(t_node *node)
 {
 	t_adj_lst	*lst;
 
-	node->adj = sort(node->adj);
+	node->out = sort(node->out);
 	node->visit = 1;
-	lst = node->adj;
+	lst = node->out;
 	while (lst)
 	{
 		if (lst->node->visit == 0)

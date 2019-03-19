@@ -80,26 +80,6 @@ void	free_queue(t_queue *q)
 void	queue_add(t_node *node, t_node *prev, t_queue *queue)
 {
 	t_adj_lst	*new;
-	// t_adj_lst	*output;
-
-	// node->prev = prev;
-
-	// add output link for node->out to prev
-	// if (node != g_farm.end && !link_exists(node, prev))
-	// {
-	// 	if ((output = malloc(sizeof(t_adj_lst))) == NULL)
-	// 	{
-	// 		perror("lem-in: ");
-	// 		exit(1);
-	// 	}
-	// 	output->next = node->out;
-	// 	output->node = prev;
-	// 	node->out = output;
-	// }
-	// prevent adding direct links over existing direct links
-	// if (node != g_farm.end && !link_exists(node, prev))// && prev != g_farm.end)
-	// 	add_direct_link(node, prev);
-
 
 	if (node->visit || node->in_path)
 		return ;
@@ -108,8 +88,7 @@ void	queue_add(t_node *node, t_node *prev, t_queue *queue)
 		perror("lem-in: ");
 		exit(1);
 	}
-	// node->out = 
-
+	node->prev = prev;
 	node->visit = 1;
 	if (node != g_farm.start && node != g_farm.end)
 		node->dist = MIN((prev->dist + 1), node->dist);
@@ -124,15 +103,21 @@ void	queue_add(t_node *node, t_node *prev, t_queue *queue)
 
 t_queue	*init_queue(t_node *node)
 {
-	t_queue	*q;
+	t_queue		*q;
+	t_adj_lst	*lst;
 
-	if ((q = malloc(sizeof(t_queue))) == NULL)
+	if ((q = malloc(sizeof(t_queue))) == NULL ||
+		(lst = malloc(sizeof(t_adj_lst))) == NULL)
 	{
 		perror("lem-in: ");
 		exit(1);
 	}
-	q->lst = NULL;
-	q->last = NULL;
-	queue_add(node, NULL, q);
+	node->prev = NULL;
+	node->visit = 1;
+	lst->node = node;
+	lst->next = NULL;
+	q->lst = lst;
+	q->last = lst;
+	// queue_add(node, NULL, q);
 	return (q);
 }

@@ -15,7 +15,7 @@ NAME = lem-in
 CC = gcc
 
 FLAGS = -Wall -Werror -Wextra -g \
-	-fsanitize=address \
+#	-fsanitize=address \
 	-fsanitize=leak
 
 

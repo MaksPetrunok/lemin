@@ -1,0 +1,17 @@
+2
+##start
+A 0 0
+##end
+END 9 9
+B 0 0
+C 0 0
+D 0 0
+E 0 0
+F 0 0
+A-B
+B-C
+C-D
+D-END
+A-E
+E-F
+F-END

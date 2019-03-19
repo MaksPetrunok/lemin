@@ -1,0 +1,27 @@
+1
+##start
+A 0 0
+##end
+Z 0 0
+B 1 1
+C 2 2
+D 3 3
+E 4 4
+F 5 5
+G 6 6
+H 7 7
+I 8 8
+J 9 9
+#links
+A-B
+B-C
+C-D
+D-Z
+A-E
+E-F
+F-G
+G-H
+H-I
+I-J
+J-Z
+F-D

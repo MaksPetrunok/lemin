@@ -23,10 +23,21 @@ struct			s_inp_lst
 extern t_farm		g_farm;
 extern t_inp_lst	*g_input;
 
+void	print_hashmap(t_hashmap *hm); // remove this
+
 int					add_input(char *str);
 void				relink(t_node *n);
 void				escort_ants(void);
 
+/*
+** path.c
+*/
+int					find_shortest_path(t_node *n, t_node *dst);
+int					find_alternative_path(t_node *n);
+void				find_all_paths(t_node *n);
+void				update_distance(t_node *n);
+int					count_inputs(void);
+void				refresh_graph(t_node *n);
 
 /*
 ** fork.c

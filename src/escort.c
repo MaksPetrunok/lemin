@@ -16,7 +16,7 @@ static void	move_ant(t_ant *ant)
 {
 	t_adj_lst	*lst;
 
-	lst = ant->node->adj;
+	lst = ant->node->out;
 	while (lst)
 	{
 		// add smart conditions
@@ -45,17 +45,18 @@ static void	add_ants(t_ant_queue *q)
 	int			ants_sent;
 
 	ants_sent = 0;
-	lst = g_farm.start->adj;
+	lst = g_farm.start->out;
 // ft_printf("Max ants = %d\n", MIN(g_farm.inputs, g_farm.outputs));
-	while (lst && ants_sent < (MIN(g_farm.inputs, g_farm.outputs)) && 				g_farm.next_ant <= g_farm.ants_number)
+	while (lst && ants_sent < g_farm.inputs &&
+		g_farm.next_ant <= g_farm.ants_number)
 	{
 		// modify smart conditions ?
-		if (lst->node->ant == 0 && lst->node->dist < 2000000 &&
+		if (lst->node->ant == 0 &&
 			// (lst->node == g_farm.start->adj->node ||
 			(g_farm.ants_number - g_farm.next_ant >= lst->node->dist - g_farm.start->adj->node->dist))//)
 		{
 			ft_printf("L%d-%s ", g_farm.next_ant, lst->node->id);
-			ft_printf("[%d] ", lst->node->dist); // debug
+			// ft_printf("[%d] ", lst->node->dist); // debug
 			ant_queue_add(g_farm.next_ant, lst->node, q);
 			lst->node->ant = g_farm.next_ant++;
 			ants_sent++;
