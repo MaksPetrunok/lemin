@@ -6,7 +6,7 @@
 #    By: mpetruno <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/06 15:38:01 by mpetruno          #+#    #+#              #
-#    Updated: 2019/03/14 17:47:40 by mpetruno         ###   ########.fr        #
+#    Updated: 2019/03/19 16:35:11 by mpetruno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ NAME = lem-in
 CC = gcc
 
 FLAGS = -Wall -Werror -Wextra -g \
-#	-fsanitize=address \
-	-fsanitize=leak
+	-fsanitize=address \
+#	-fsanitize=leak
 
 
 SRC_DIR = ./src/

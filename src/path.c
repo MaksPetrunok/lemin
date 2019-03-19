@@ -199,9 +199,8 @@ int	find_alternative_path(t_node *n)
 // ft_printf("    Trying alternative path %s V%d P%d D%d\n",
 	// tmp->node->id, tmp->node->visit, tmp->node->in_path, tmp->node->dist);
 
-			if ((tmp->node == g_farm.end && !link_exists(queue->lst->node, tmp->node)) ||
-				(queue->lst->node != g_farm.start &&
-				tmp->node->in_path && tmp->node->dist < n->dist &&
+			if ((tmp->node == g_farm.end  && !link_exists(queue->lst->node, tmp->node)) ||
+				(tmp->node->in_path && queue->lst->node != g_farm.start && tmp->node->dist < n->dist &&
 				!link_exists(queue->lst->node, tmp->node)))
 			{
 // ft_printf("    Adding path from %s to %s\n", n->id, tmp->node->id);
@@ -214,7 +213,7 @@ int	find_alternative_path(t_node *n)
 		}
 		queue_next(queue);
 	}
-// print_hashmap(g_farm.map);
+//print_hashmap(g_farm.map);
 	free_queue(queue);
 	refresh_graph(n);
 	return (path_found);
@@ -236,7 +235,7 @@ int		has_empty_adjacent(t_node *n)
 
 // for update distance only
 // identical to original queue_update() except check for node->in_path
-static void	queue_add_path(t_node *node, t_node *prev, t_queue *queue)
+void	queue_add_path(t_node *node, t_node *prev, t_queue *queue)
 {
 	t_adj_lst	*new;
 
@@ -271,11 +270,14 @@ void	update_distance(t_node *n)
 	queue = init_queue(n);
 	while (queue->lst)
 	{
+// ft_printf(">>> Dist Update <<<\n");
 		tmp = queue->lst->node->in;
 		while (tmp)
 		{
+// ft_printf("  %s V%d\n", tmp->node->id, tmp->node->visit);
 			if (tmp->node != g_farm.start && tmp->node->visit == 0)
 			{
+// ft_printf("Update distance %s from %s\n", tmp->node->id, queue->lst->node->id);
 				tmp->node->dist = queue->lst->node->dist + 1;
 				queue_add_path(tmp->node, queue->lst->node, queue);
 			}
@@ -287,19 +289,45 @@ void	update_distance(t_node *n)
 	refresh_graph(n);
 }
 
+// void	find_all_paths(t_node *n)
+// {
+// 	t_adj_lst	*lst;
+
+// 	if (n == g_farm.end)
+// 		return ;
+// 	while (find_alternative_path(n))
+// 		;
+// 	lst = n->out;
+// 	while (lst)
+// 	{
+// /*
+// // ft_printf("Try make alternative path for %s\n", lst->node->id);
+// // 		if (has_empty_adjacent(lst->node) && find_alternative_path(lst->node))// && !link_exists(lst->node, g_farm.end))
+// // 		{
+// // 			ft_printf("Find paths for %s [%s]\n", lst->node->id, g_farm.end->id);
+// ft_printf("Loop %s=%d -> %s=%d\n", n->id, n->dist, lst->node->id, lst->node->dist);
+// 			find_all_paths(lst->node);
+// 		// }
+// */
+// 		lst = lst->next;
+// 	}
+// }
+
 void	find_all_paths(t_node *n)
 {
 	t_adj_lst	*lst;
 
-	if (n == g_farm.end)
-		return ;
+	// n = g_farm.end;
 	while (find_alternative_path(n))
-		;
+		ft_printf("Path found\n");
 	lst = n->out;
 	while (lst)
 	{
-		if (has_empty_adjacent(lst->node) )
-			find_all_paths(lst->node);
+ft_printf("Search path for %s %d\n", lst->node->id, link_exists(lst->node, lst->node));
+		if (find_alternative_path(n))
+			find_all_paths(n);
 		lst = lst->next;
 	}
+// ft_printf("Exiting\n");
+// exit(0);
 }

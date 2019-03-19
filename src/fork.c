@@ -111,7 +111,8 @@ void			unfork(t_node *n)
 	t_queue		*queue;
 	t_adj_lst	*tmp;
 
-	n->dist = 0;
+	// n->dist = 0;
+ft_printf("Removing input forks\n");
 	queue = init_queue(n);
 	while (queue->lst) // && has_unvisited(start) && has_unvisited(end))
 	{
@@ -121,12 +122,15 @@ void			unfork(t_node *n)
 //			if (tmp->node != g_farm.end && tmp->node->in &&
 //				tmp->node->in->next != NULL)
 //				remove_input_fork(tmp->node);
-				queue_add(tmp->node, queue->lst->node, queue);
+				queue_add_path(tmp->node, queue->lst->node, queue);
 			tmp = tmp->next;
 		}
 			if (queue->lst->node != g_farm.end && queue->lst->node->in &&
 				queue->lst->node->in->next != NULL)
+				{
+ft_printf("    at %s\n", queue->lst->node->id);
 				remove_input_fork(queue->lst->node);
+				}
 		queue_next(queue);
 	}
 	free_queue(queue);

@@ -59,6 +59,7 @@ struct			s_node
 	int			in_path;
 	int			visit;
 	int			dist;
+	t_node		*lock;
 	t_node		*prev;
 	t_adj_lst	*adj;
 	t_adj_lst	*in;

@@ -18,14 +18,16 @@ echo "------------ Lem-in Summary ------------"
 
 for file in ./maps/*;
 do
+	printf "Map: %-*s | "\
+		$LEN\
+		$file\
+
 	STR=`grep -m 1 "#Here is the number of lines required:" $file`
 	N_REQ="${STR//[!0-9]/}"
 	N_RES=`../lem-in < $file | grep "^L[1-9].*" | wc -l`
 	D=$(($N_RES - $N_REQ))
 
-	printf "Map: %-*s | Ref: %3d | Lem-in: %4d | Difference: "\
-		$LEN\
-		$file\
+	printf "Ref: %3d | Lem-in: %4d | Difference: "\
 		$N_REQ\
 		$N_RES
 	if [ $D -gt 3 ]

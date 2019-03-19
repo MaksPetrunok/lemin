@@ -49,6 +49,7 @@ void				unfork(t_node *n);
 */
 t_queue	*init_queue(t_node *node);
 void	queue_add(t_node *node, t_node *prev, t_queue *queue);
+void	queue_add_path(t_node *node, t_node *prev, t_queue *queue);
 void	free_queue(t_queue *q);
 void	queue_next(t_queue *queue);
 int		find_paths(t_node *n);

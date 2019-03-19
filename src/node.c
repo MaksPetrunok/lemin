@@ -40,6 +40,7 @@ t_node		*init_node(const char *str)
 	node->visit = 0;
 	node->in_path = 0;
 	node->dist = 2000000;
+	node->lock = NULL;
 node->in = NULL;
 node->out = NULL;
 	return (node);
