@@ -63,6 +63,7 @@ static void	add_ants(t_ant_queue *q)
 			// 	); // debug
 			ant_queue_add(g_farm.next_ant, lst->node, q);
 			lst->node->ant = g_farm.next_ant++;
+			g_farm.end->ant = 0;
 			ants_sent++;
 		}
 		// else

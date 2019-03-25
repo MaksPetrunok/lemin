@@ -55,8 +55,35 @@ void	print_hashmap(t_hashmap *hm)
 	ft_printf("--------- End hashmap ---------\n");
 }
 
-int	main(void)
+#include <fcntl.h>
+
+void	read_from_file(char *file)
 {
+	int	fd;
+
+	if ((fd = open(file, O_RDONLY)) == -1)
+	{
+		ft_dprintf(2, "lem-in: cannot read file '%s'\n", file);
+		exit(1);
+	}
+	if (dup2(fd, 0) == -1)
+	{
+		ft_dprintf(2, "lem-in: I/O redirection error occured\n");
+		exit(1);
+	}
+	else
+		close(fd);
+}
+
+int	main(int ac, char **av)
+{
+	if (ac > 2)
+	{
+		ft_dprintf(2, "lem-in: too much arguments\n");
+		exit(1);
+	}
+	if (ac == 2)
+		read_from_file(av[1]);
 	if (!make_farm())
 		return (1);
 
