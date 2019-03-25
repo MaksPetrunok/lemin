@@ -20,6 +20,8 @@ static void	move_ant(t_ant *ant)
 	while (lst)
 	{
 		// add smart conditions
+	// ft_printf("Try send ant %d to %s\n", ant->id, lst->node->id);
+	// ft_printf("End->ant=%d\n", g_farm.end->ant);
 		if (lst->node->ant == 0) // &&
 			// lst->node->dist <= ant->node->dist)
 		{
@@ -50,8 +52,8 @@ static void	add_ants(t_ant_queue *q)
 	{
 		// modify smart conditions ?
 		if (lst->node->ant == 0 &&
-			// (lst->node == g_farm.start->adj->node ||
-			(g_farm.ants_number - g_farm.next_ant >= lst->node->dist - g_farm.start->out->node->dist))//)
+			(lst->node == g_farm.start->out->node ||
+			(g_farm.ants_number - g_farm.next_ant >= lst->node->dist - g_farm.start->out->node->dist)))
 		{
 			ft_printf("L%d-%s ", g_farm.next_ant, lst->node->id);
 			// ft_printf("[%d (%d-%d >= %d-%d)] ",
@@ -63,6 +65,7 @@ static void	add_ants(t_ant_queue *q)
 			// 	); // debug
 			ant_queue_add(g_farm.next_ant, lst->node, q);
 			lst->node->ant = g_farm.next_ant++;
+			g_farm.end->ant = 0;
 			ants_sent++;
 		}
 		// else
@@ -102,8 +105,8 @@ void	escort_ants(void)
 	{
 		while (queue->lst && queue->lst->node == g_farm.end)
 		{
-			ft_printf("Ant %d finished\n", queue->lst->id);
-			exit(1);
+			// ft_printf("Ant %d finished\n", queue->lst->id);
+			// exit(1);
 			ant_queue_next(queue);
 		}
 		ant = queue->lst;
@@ -113,6 +116,7 @@ void	escort_ants(void)
 			ant = ant->next;
 		}
 		add_ants(queue);
+		// ft_printf("Loop");
 		ft_printf("\n"); // infinite loop here
 	}
 	free((void *)queue);

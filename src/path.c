@@ -221,26 +221,16 @@ int	find_alternative_path(t_node *n)
 // ft_printf("    Trying alternative path %s V%d P%d D%d\n",
 	// tmp->node->id, tmp->node->visit, tmp->node->in_path, tmp->node->dist);
 
-			if (tmp->node->visit == 0 && ((tmp->node == g_farm.end &&
+			if (tmp->node == g_farm.end &&
 				!link_exists(queue->lst->node, tmp->node))
-				||
-				(tmp->node->in_path && tmp->node->dist < n->dist &&
-				!link_exists(queue->lst->node, tmp->node))))
-
-			// if ((tmp->node == g_farm.end
-			// 	&&
-			// 	!link_exists(queue->lst->node, tmp->node))
-			// 	||
-			// 	(tmp->node->in_path && queue->lst->node != g_farm.start && tmp->node->dist < n->dist &&
-			// 	!link_exists(queue->lst->node, tmp->node)))
 			{
 // ft_printf("    Adding path from %s to %s\n", n->id, tmp->node->id);
 				tmp->node->prev = queue->lst->node;
 				path_found = make_path(tmp->node);
 			}
 // ft_printf("    Failed\n");`
-			tmp->node->alt_path = 1;
-			if (tmp->node != g_farm.end || tmp->node->in_path == 0)
+			// tmp->node->alt_path = 1;
+			if (tmp->node != g_farm.end && tmp->node->in_path == 0)
 				queue_add(tmp->node, queue->lst->node, queue);
 			tmp = tmp->next;
 		}
@@ -248,8 +238,8 @@ int	find_alternative_path(t_node *n)
 	}
 //print_hashmap(g_farm.map);
 	free_queue(queue);
-	clear_alt_path(n);
-	// refresh_graph(n);
+	// clear_alt_path(n);
+	refresh_graph(n);
 	return (path_found);
 }
 

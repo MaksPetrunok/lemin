@@ -70,6 +70,9 @@ print_hashmap(g_farm.map); // DEBUG
 		exit(1);
 	}
 // exit(1);
+	while (find_alternative_path(g_farm.start))
+		;
+// exit(1);
 ft_printf("------------ Find All --------------\n");
 /*
 !!! IMPORTANT !!!
@@ -77,15 +80,15 @@ ft_printf("------------ Find All --------------\n");
 	path must not go through any other node adjacent to end
 	as result there will be set of DIRECT paths from start to end
 */
-	find_all_paths(g_farm.start);
+	// find_all_paths(g_farm.start);
 
 // 	unfork(g_farm.start);
 ft_printf("After directing graph forks:\n");
 print_hashmap(g_farm.map); // DEBUG
 
-	unfork(g_farm.start);
-ft_printf("L1q\n");
-exit(1);
+	// unfork(g_farm.start);
+// ft_printf("L1q\n");
+// exit(1);
 
 // ft_printf("After unforking all:\n");
 // print_hashmap(g_farm.map); // DEBUG
@@ -108,6 +111,8 @@ exit(1);
 	sort_paths(g_farm.start);
 	refresh_graph(g_farm.start);
 	update_distance(g_farm.end);
+// ft_printf("Before escorting ants\n");
+// exit(1);
 	escort_ants();
 
 ft_printf("Inputs: %d\n", g_farm.inputs);
