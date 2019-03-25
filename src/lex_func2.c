@@ -12,53 +12,34 @@
 
 #include "lemin.h"
 
-static int	set_node(t_node *n, char *dst)
-{
-	char	*msg;
-
-	msg = NULL;
-	if (ft_strequ(dst, "##start") && g_farm.start != NULL)
-		msg = "duplicate ##start found";
-	else if (ft_strequ(dst, "##end") && g_farm.end != NULL)
-		msg = "duplicate ##end found";
-	if (msg)
-	{
-		ft_dprintf(2, "lem-in: %s\n", msg);
-		return (0);
-	}
-	if (ft_strequ(dst, "##start"))
-		g_farm.start = n;
-	else if (ft_strequ(dst, "##end"))
-		g_farm.end = n;
-	return (1);
-}
+extern int	g_room_state;
 
 int			set_cmd(char *str)
 {
-	char	*tmp;
-	t_node	*node;
-
 	if (!ft_strequ(str, "##start") && !ft_strequ(str, "##end"))
 	{
 		free((void *)str);
 		return (1);
 	}
-	if (get_next_line(0, &tmp) <= 0 || !is_room(tmp))
+	if (ft_strequ(str, "##start"))
 	{
-		ft_dprintf(2, "lem-in: unexpected token '%s'\n", tmp ? tmp : "EOF");
-		exit(1);
+		if (g_farm.start != NULL)
+		{
+			ft_dprintf(2, "lem-in: duplicate ##start found");
+			exit(1);
+		}
+		g_room_state = 1;
 	}
-	if ((node = init_node(tmp)) == NULL)
-		exit(1);
-	if (!hmap_set(node->id, node, g_farm.map))
+	else if (ft_strequ(str, "##end"))
 	{
-		perror("lem-in: ");
-		exit(1);
+		if (g_farm.end != NULL)
+		{
+			ft_dprintf(2, "lem-in: duplicate ##end found");
+			exit(1);
+		}
+		g_room_state = 2;
 	}
-	if (!set_node(node, str))
-		return (-1);
 	add_input(str);
-	add_input(tmp);
 	return (1);
 }
 
@@ -69,6 +50,13 @@ int			set_link(char *str)
 	t_node	*n1;
 	t_node	*n2;
 
+	if (g_room_state != 0)
+	{
+		ft_dprintf(2,
+			"lem-in: syntax error - room token expected after '##%s'\n",
+			(g_room_state == 1) ? "start" : "end");
+		exit(1);
+	}
 	if ((id1 = ft_strdup(str)) == NULL)
 	{
 		perror("lem-in: ");

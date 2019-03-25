@@ -30,7 +30,7 @@ t_node		*init_node(const char *str)
 		else
 			ft_dprintf(2,
 				"memory allocation error when initializing node '%s'\n", str);
-		return (NULL);
+		exit(1);
 	}
 	node->x = ft_atoi(ptr);
 	node->y = ft_atoi(ft_strchr(ptr + 1, ' '));
@@ -38,6 +38,7 @@ t_node		*init_node(const char *str)
 	node->ant = 0;
 	node->prev = NULL;
 	node->visit = 0;
+	node->alt_path = 0;
 	node->in_path = 0;
 	node->dist = 2000000;
 	node->lock = NULL;

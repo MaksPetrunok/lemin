@@ -12,6 +12,14 @@
 
 #include "lemin.h"
 
+int	g_room_state;
+
+int	set_comment(char *str)
+{
+	free((void *)str);
+	return (1);
+}
+
 int	set_err(char *str)
 {
 	ft_dprintf(2, "lem-in: unexpected token '%s'\n",
@@ -50,6 +58,11 @@ int	set_room(char *str)
 		perror("lem-in: ");
 		return (-1);
 	}
+	if (g_room_state == 1)
+		g_farm.start = node;
+	else if (g_room_state == 2)
+		g_farm.end = node;
+	g_room_state = 0;
 	add_input(str);
 	return (1);
 }

@@ -90,8 +90,8 @@ void	queue_add(t_node *node, t_node *prev, t_queue *queue)
 	}
 	node->prev = prev;
 	node->visit = 1;
-	if (node != g_farm.start && node != g_farm.end)
-		node->dist = MIN((prev->dist + 1), node->dist);
+	// if (node != g_farm.start && node != g_farm.end)
+	// 	node->dist = MIN((prev->dist + 1), node->dist);
 	new->node = node;
 	new->next = NULL;
 	if (queue->lst == NULL)

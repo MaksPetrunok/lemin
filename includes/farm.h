@@ -58,6 +58,7 @@ struct			s_node
 	int			ant;
 	int			in_path;
 	int			visit;
+	int			alt_path;
 	int			dist;
 	t_node		*lock;
 	t_node		*prev;
@@ -116,6 +117,7 @@ void			free_node(t_node *node);
 /*
 ** lex_func1.c
 */
+int					set_comment(char *str);
 int					set_err(char *str);
 int					set_ants(char *str);
 int					set_room(char *str);

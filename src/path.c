@@ -12,6 +12,28 @@
 
 #include "lemin.h"
 
+void	clear_alt_path(t_node *n)
+{
+	t_adj_lst	*lst;
+
+	n->visit = 0;
+	n->alt_path = 0;
+	lst = n->adj;
+	while (lst)
+	{
+		if (lst->node->alt_path)
+			clear_alt_path(lst->node);
+		lst = lst->next;
+	}
+	lst = n->out;
+	while (lst)
+	{
+		if (lst->node->alt_path)
+			clear_alt_path(lst->node);
+		lst = lst->next;
+	}
+}
+
 void	refresh_graph(t_node *n)
 {
 	t_adj_lst	*lst;
@@ -199,23 +221,35 @@ int	find_alternative_path(t_node *n)
 // ft_printf("    Trying alternative path %s V%d P%d D%d\n",
 	// tmp->node->id, tmp->node->visit, tmp->node->in_path, tmp->node->dist);
 
-			if ((tmp->node == g_farm.end  && !link_exists(queue->lst->node, tmp->node)) ||
-				(tmp->node->in_path && queue->lst->node != g_farm.start && tmp->node->dist < n->dist &&
-				!link_exists(queue->lst->node, tmp->node)))
+			if (tmp->node->visit == 0 && ((tmp->node == g_farm.end &&
+				!link_exists(queue->lst->node, tmp->node))
+				||
+				(tmp->node->in_path && tmp->node->dist < n->dist &&
+				!link_exists(queue->lst->node, tmp->node))))
+
+			// if ((tmp->node == g_farm.end
+			// 	&&
+			// 	!link_exists(queue->lst->node, tmp->node))
+			// 	||
+			// 	(tmp->node->in_path && queue->lst->node != g_farm.start && tmp->node->dist < n->dist &&
+			// 	!link_exists(queue->lst->node, tmp->node)))
 			{
 // ft_printf("    Adding path from %s to %s\n", n->id, tmp->node->id);
 				tmp->node->prev = queue->lst->node;
 				path_found = make_path(tmp->node);
 			}
 // ft_printf("    Failed\n");`
-			queue_add(tmp->node, queue->lst->node, queue);
+			tmp->node->alt_path = 1;
+			if (tmp->node != g_farm.end || tmp->node->in_path == 0)
+				queue_add(tmp->node, queue->lst->node, queue);
 			tmp = tmp->next;
 		}
 		queue_next(queue);
 	}
 //print_hashmap(g_farm.map);
 	free_queue(queue);
-	refresh_graph(n);
+	clear_alt_path(n);
+	// refresh_graph(n);
 	return (path_found);
 }
 
@@ -248,8 +282,8 @@ void	queue_add_path(t_node *node, t_node *prev, t_queue *queue)
 	}
 	node->prev = prev;
 	node->visit = 1;
-	if (node != g_farm.start && node != g_farm.end)
-		node->dist = MIN((prev->dist + 1), node->dist);
+	// if (node != g_farm.start && node != g_farm.end)
+	// 	node->dist = MIN((prev->dist + 1), node->dist);
 	new->node = node;
 	new->next = NULL;
 	if (queue->lst == NULL)
@@ -313,21 +347,55 @@ void	update_distance(t_node *n)
 // 	}
 // }
 
+// void	find_all_paths(t_node *n)
+// {
+// 	t_adj_lst	*lst;
+
+// 	// n = g_farm.end;
+// 	while (find_alternative_path(n))
+// 		ft_printf("Path found\n");
+// 	lst = n->out;
+// 	while (lst)
+// 	{
+// ft_printf("Search path for %s %d\n", lst->node->id, link_exists(lst->node, lst->node));
+// 		if (find_alternative_path(n))
+// 			find_all_paths(n);
+// 		lst = lst->next;
+// 	}
+// // ft_printf("Exiting\n");
+// // exit(0);
+// }
+
 void	find_all_paths(t_node *n)
 {
-	t_adj_lst	*lst;
+	t_queue		*queue;
+	t_adj_lst	*tmp;
+	// int			path_found;
 
-	// n = g_farm.end;
-	while (find_alternative_path(n))
-		ft_printf("Path found\n");
-	lst = n->out;
-	while (lst)
+	// path_found = 0;
+	// g_farm.end->dist = 0;
+	queue = init_queue(n);
+	while (queue->lst)
 	{
-ft_printf("Search path for %s %d\n", lst->node->id, link_exists(lst->node, lst->node));
-		if (find_alternative_path(n))
-			find_all_paths(n);
-		lst = lst->next;
+// ft_printf(">>> Dist Update <<<\n");
+ft_printf("LOOP: %s\n", queue->lst->node->id);
+		// if (queue->lst->node->in_path)
+			while (find_alternative_path(queue->lst->node))
+				;
+		tmp = queue->lst->node->out;
+		while (tmp)
+		{
+// ft_printf("  %s V%d\n", tmp->node->id, tmp->node->visit);
+			if (tmp->node->in_path && tmp->node != g_farm.end)
+			{
+// ft_printf("Update distance %s from %s\n", tmp->node->id, queue->lst->node->id);
+				// tmp->node->dist = queue->lst->node->dist + 1;
+				queue_add_path(tmp->node, queue->lst->node, queue);
+			}
+			tmp = tmp->next;
+		}
+		queue_next(queue);
 	}
-// ft_printf("Exiting\n");
-// exit(0);
+	free_queue(queue);
+	refresh_graph(n);
 }

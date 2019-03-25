@@ -13,8 +13,9 @@
 #include "lemin.h"
 
 t_farm		g_farm;
-t_inp_lst	*g_raw_input = NULL;
 t_inp_lst	*g_input = NULL;
+int			g_room_state = 0;
+
 
 static t_state_trans	g_fsm_table[3][6] =
 {
@@ -23,21 +24,21 @@ static t_state_trans	g_fsm_table[3][6] =
 	[S_ANT][L_LINK] = {S_ROOM, &set_err},
 	[S_ANT][L_CMD] = {S_ROOM, &set_err},
 	[S_ANT][L_ERR] = {S_ROOM, &set_err},
-	[S_ANT][L_COMM] = {S_ANT, NULL},
+	[S_ANT][L_COMM] = {S_ANT, &set_comment},
 
 	[S_ROOM][L_ANT] = {S_ROOM, &set_err},
 	[S_ROOM][L_ROOM] = {S_ROOM, &set_room},
 	[S_ROOM][L_LINK] = {S_LINK, &set_link},
 	[S_ROOM][L_CMD] = {S_ROOM, &set_cmd},
 	[S_ROOM][L_ERR] = {S_ROOM, &set_err},
-	[S_ROOM][L_COMM] = {S_ROOM, NULL},
+	[S_ROOM][L_COMM] = {S_ROOM, &set_comment},
 
 	[S_LINK][L_ANT] = {S_ROOM, &set_err},
 	[S_LINK][L_ROOM] = {S_ROOM, &set_err},
 	[S_LINK][L_LINK] = {S_LINK, &set_link},
 	[S_LINK][L_CMD] = {S_LINK, NULL},
 	[S_LINK][L_ERR] = {S_LINK, &set_err},
-	[S_LINK][L_COMM] = {S_LINK, NULL}
+	[S_LINK][L_COMM] = {S_LINK, &set_comment}
 };
 
 int			add_input(char *str)

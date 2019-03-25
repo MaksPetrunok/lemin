@@ -69,16 +69,24 @@ print_hashmap(g_farm.map); // DEBUG
 		ft_dprintf(2, "lem-in: there is no path between start and end rooms\n");
 		exit(1);
 	}
-
+// exit(1);
 ft_printf("------------ Find All --------------\n");
-
+/*
+!!! IMPORTANT !!!
+	for each node adjacent to start build path to each node adjacent to end
+	path must not go through any other node adjacent to end
+	as result there will be set of DIRECT paths from start to end
+*/
 	find_all_paths(g_farm.start);
 
 // 	unfork(g_farm.start);
-ft_printf("After removing input forks:\n");
+ft_printf("After directing graph forks:\n");
 print_hashmap(g_farm.map); // DEBUG
 
 	unfork(g_farm.start);
+ft_printf("L1q\n");
+exit(1);
+
 // ft_printf("After unforking all:\n");
 // print_hashmap(g_farm.map); // DEBUG
 
