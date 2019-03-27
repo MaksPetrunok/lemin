@@ -43,13 +43,8 @@ int			set_cmd(char *str)
 	return (1);
 }
 
-int			set_link(char *str)
+static void	check_room_state(void)
 {
-	char	*id1;
-	char	*id2;
-	t_node	*n1;
-	t_node	*n2;
-
 	if (g_room_state != 0)
 	{
 		ft_dprintf(2,
@@ -57,6 +52,16 @@ int			set_link(char *str)
 			(g_room_state == 1) ? "start" : "end");
 		exit(1);
 	}
+}
+
+int			set_link(char *str)
+{
+	char	*id1;
+	char	*id2;
+	t_node	*n1;
+	t_node	*n2;
+
+	check_room_state();
 	if ((id1 = ft_strdup(str)) == NULL)
 	{
 		perror("lem-in: ");

@@ -16,7 +16,6 @@ t_farm		g_farm;
 t_inp_lst	*g_input = NULL;
 int			g_room_state = 0;
 
-
 static t_state_trans	g_fsm_table[3][6] =
 {
 	[S_ANT][L_ANT] = {S_ROOM, &set_ants},

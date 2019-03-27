@@ -66,19 +66,3 @@ void	ant_queue_add(int id, t_node *node, t_ant_queue *queue)
 		queue->last->next = new;
 	queue->last = new;
 }
-
-// t_ant_queue	*init_ants(t_node *node)
-// {
-// 	t_ant_queue	*q;
-
-// 	if ((q = malloc(sizeof(t_ant_queue))) == NULL)
-// 	{
-// 		perror("lem-in: ");
-// 		exit(1);
-// 	}
-// 	q->lst = NULL;
-// 	q->last = NULL;
-
-// 	ant_queue_add(1, node, q);
-// 	return (q);
-// }
